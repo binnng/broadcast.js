@@ -1,24 +1,25 @@
 {
   "name": "binnng/broadcast.js",
-  "main": "broadcast.js",
   "version": "0.0.1",
-  "homepage": "https://github.com/binnng/broadcast.js",
   "authors": [
     "binnng <imbinnng@gmail.com>"
   ],
   "description": "event broadcast",
+  "main": "broadcast.js",
   "moduleType": [
     "amd"
   ],
   "keywords": [
-    "broadcast",
-    "event"
+    "event",
+    "broadcast"
   ],
   "license": "MIT",
+  "homepage": "https://github.com/binnng/broadcast.js",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
+    "static/bower_components",
     "test",
     "tests"
   ]
