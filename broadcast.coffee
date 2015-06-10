@@ -1,38 +1,38 @@
 # ```
 # broadcast.js
 # 
-# ! CopyRight: binnng http://github.com/binnng/debug.js
+# ! CopyRight: binnng http://github.com/binnng/broadcast.js
 # Licensed under: MIT
 # ```
 
 # ```
-# var broadcast = require("broadcast");
-#	broadcast.on("test", function(event, data) {
-#		console.log(event);
-#		console.log(data); 
+# var broadcast = require("./broadcast.js");
+#	broadcast.on("test", function(data, event) {
+#		console.log(event); // test
+#		console.log(data); // [1,2,3]
 #	});
 #	broadcast.fire("test", [1,2,3]);
 # ```
 
-define "broadcast", (require, exports, module) ->
 
-	WIN = window
+broadcast = 
+	on: (name, fn) ->
+		eventData = broadcast.data
 
-	broadcast = 
-		on: (name, fn) ->
-			eventData = broadcast.data
+		if eventData.hasOwnProperty name
+			eventData[name].push fn
+		else
+			eventData[name] = [fn]
 
-			if eventData.hasOwnProperty(name)
-				eventData[name].push fn
-			else
-				eventData[name] = [fn]
+	fire: (name, data, thisArg) ->
+		thisArg = thisArg or window
+		fnList = broadcast.data[name]
 
-		fire: (name, data, thisArg) ->
-			thisArg = thisArg or WIN
-			fnList = broadcast.data[name] or []
+		unless fnList.length
+			return throw new Error "Cannot find broadcast event #{name}"
 
-			fn.apply thisArg, [name, data] for fn in fnList
+		fn.apply thisArg, [data, name] for fn in fnList
 
-		data: {}
+	data: {}
 
-	module.exports = broadcast
+module.exports = broadcast
