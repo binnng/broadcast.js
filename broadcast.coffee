@@ -14,6 +14,7 @@
 #	broadcast.fire("test", [1,2,3]);
 # ```
 
+WIN = window
 
 broadcast = 
 	on: (name, fn) ->
@@ -24,8 +25,10 @@ broadcast =
 		else
 			eventData[name] = [fn]
 
+		@
+
 	fire: (name, data, thisArg) ->
-		thisArg = thisArg or window
+		thisArg = thisArg or WIN
 		fnList = broadcast.data[name]
 
 		unless fnList.length
@@ -33,6 +36,11 @@ broadcast =
 
 		fn.apply thisArg, [data, name] for fn in fnList
 
+		@
+
 	data: {}
 
-module.exports = broadcast
+if typeof exports isnt "undefined" and module.exports
+	module.exports = broadcast
+else
+	WIN.broadcast = broadcast
